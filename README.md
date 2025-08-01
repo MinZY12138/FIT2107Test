@@ -1,7 +1,7 @@
 # FIT2107 Repository - Semester 2, 2025
 
-Student name:
+Student name: Min Zhengyuan
 
-Student ID:
+Student ID:34075887
 
-Class:
+Class: Tutorial 3
