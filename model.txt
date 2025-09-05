@@ -1,0 +1,15 @@
+Item: Book, Gardening, Carpentry
+Age: U18, A18_49, A50_64, A65_89, A90P
+Loan: Short, Medium, Long
+Fees: None, Outstanding
+Training: None, Garden, Carpentry, Both
+
+# ---- Constraints ----
+# Gardening tools require Garden or Both training
+IF [Item]="Gardening" THEN ([Training]="Garden" OR [Training]="Both");
+
+# Carpentry tools require Carpentry or Both training
+IF [Item]="Carpentry" THEN ([Training]="Carpentry" OR [Training]="Both");
+
+# Patrons under 18 or 90+ cannot borrow Carpentry tools
+IF [Item]="Carpentry" THEN ([Age]="A18_49" OR [Age]="A50_64" OR [Age]="A65_89");
