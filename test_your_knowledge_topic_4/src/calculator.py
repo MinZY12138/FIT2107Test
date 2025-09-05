@@ -6,19 +6,24 @@ class Calculator:
         self._answer = 0
 
     def get_answer(self):
-        return None  # stub
+        return self._answer
 
     def reset(self):
-        return self  # stub
+        self._answer = 0
+        return self
 
     def add(self, num):
-        return self  # stub
+        self._answer += num
+        return self
 
     def subtract(self, num):
-        return self  # stub
+        self._answer -= num
+        return self
 
     def multiply(self, num):
-        return self  # stub
+        self._answer *= num
+        return self
 
     def power(self, num):
-        return self  # stub
+        self._answer = self._answer ** num
+        return self
