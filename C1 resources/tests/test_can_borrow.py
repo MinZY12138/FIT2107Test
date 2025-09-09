@@ -1,5 +1,5 @@
 '''
-The method you are testing is: pairwise testing
+The method you are testing is: 
     can_borrow(item_type, patron_age, length_of_loan, outstanding_fees, gardening_training, carpentry_training)
 
 The data type of each parameter is:
