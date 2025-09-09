@@ -1,0 +1,8 @@
+Item: Book, GardeningTool, CarpentryTool
+Age: <18, 18-89, =>90
+Loan: Short, Medium, Long
+Fees: Yes, No
+GardeningTrained: Trained, NotTrained
+CarpentryTrained: Trained, NotTrained
+
+
