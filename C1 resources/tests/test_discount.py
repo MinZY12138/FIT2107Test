@@ -22,8 +22,8 @@ class TestCalculateDiscount(unittest.TestCase):
     """
     Test suite for calculate_discount(age).
     Interpreted partitions from your design:
-      - age < 50          -> 0.00
-      - 50 <= age <= 64   -> 0.10
+      - age <= 50          -> 0.00
+      - 50 < age <= 64   -> 0.10
       - 65 <= age <= 89   -> 0.15
       - age >= 90         -> 1.00
     """
