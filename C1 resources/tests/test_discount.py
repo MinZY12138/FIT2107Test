@@ -28,34 +28,23 @@ class TestCalculateDiscount(unittest.TestCase):
       - age >= 90         -> 1.00
     """
 
-    def test_equivalence_partitions(self):
-        """Equivalence Partitioning — representative ages for each class."""
+    def test_ep_bva(self):
+        """Combined EP + BVA tests for calculate_discount(age)."""
         cases = [
-            # (age, expected_discount)
+            
             (30, 0.00),
-            (55, 0.10), 
-            (70, 0.15), 
-            (95, 1.00),
-        ]
-        for age, expected in cases:
-            with self.subTest(age=age):
-                result = calculate_discount(age)
-                self.assertAlmostEqual(result, expected, places=2)
-
-    def test_boundary_values(self):
-        """Boundary Value Analysis — check all edges between partitions."""
-        cases = [
             (49, 0.00),
-            (50, 0.00),   
+            (50, 0.10),
             (51, 0.10),
-
+            (55, 0.10),
             (64, 0.10),
             (65, 0.15),
-
+            (66, 0.15),
+            (70, 0.15),
             (89, 0.15),
             (90, 1.00),
-
             (91, 1.00),
+            (95, 1.00),
         ]
         for age, expected in cases:
             with self.subTest(age=age):
