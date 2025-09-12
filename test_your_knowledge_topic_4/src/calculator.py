@@ -2,4 +2,12 @@
 # Student ID: 34075887
 
 class Calculator:
-    pass
+    def __init__(self):
+        self._answer = 0
+
+    def get_answer(self):
+        return self._answer
+
+    def reset(self):
+        self._answer = 0
+        return self
