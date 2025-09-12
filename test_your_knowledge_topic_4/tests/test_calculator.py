@@ -31,5 +31,17 @@ class TestAdd(unittest.TestCase):
         self.calc.add(-3)
         self.assertEqual(self.calc.get_answer(), -3)
 
+class TestSubtract(unittest.TestCase):
+    def setUp(self):
+        self.calc = Calculator()
+
+    def test_subtract_positive(self):
+        self.calc.subtract(3)
+        self.assertEqual(self.calc.get_answer(), -3)
+
+    def test_subtract_negative(self):
+        self.calc.subtract(-4)
+        self.assertEqual(self.calc.get_answer(), 4)
+
 if __name__ == "__main__":
     unittest.main()
