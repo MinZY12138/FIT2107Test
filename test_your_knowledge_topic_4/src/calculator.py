@@ -23,3 +23,7 @@ class Calculator:
     def multiply(self, num):
         self._answer *= num
         return self
+    
+    def power(self, num):
+        self._answer = self._answer ** num
+        return self
