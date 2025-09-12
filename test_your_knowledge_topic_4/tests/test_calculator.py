@@ -62,5 +62,25 @@ class TestMultiply(unittest.TestCase):
         self.calc._answer = -2
         self.calc.multiply(3)
         self.assertEqual(self.calc.get_answer(), -6)
+
+class TestPower(unittest.TestCase):
+    def setUp(self):
+        self.calc = Calculator()
+
+    def test_power_basic(self):
+        self.calc._answer = 2
+        self.calc.power(3)  # 2 ** 3 = 8
+        self.assertEqual(self.calc.get_answer(), 8)
+
+    def test_power_zero(self):
+        self.calc._answer = 5
+        self.calc.power(0)  # 5 ** 0 = 1
+        self.assertEqual(self.calc.get_answer(), 1)
+
+    def test_power_one(self):
+        self.calc._answer = 7
+        self.calc.power(1)  # 7 ** 1 = 7
+        self.assertEqual(self.calc.get_answer(), 7)
+
 if __name__ == "__main__":
     unittest.main()
