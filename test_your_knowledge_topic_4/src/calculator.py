@@ -11,3 +11,7 @@ class Calculator:
     def reset(self):
         self._answer = 0
         return self
+    
+    def add(self, num):
+        self._answer += num
+        return self
