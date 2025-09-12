@@ -43,5 +43,24 @@ class TestSubtract(unittest.TestCase):
         self.calc.subtract(-4)
         self.assertEqual(self.calc.get_answer(), 4)
 
+class TestMultiply(unittest.TestCase):
+    def setUp(self):
+        self.calc = Calculator()
+
+    def test_multiply_simple(self):
+        # set initial state directly to avoid depending on add()
+        self.calc._answer = 3
+        self.calc.multiply(4)
+        self.assertEqual(self.calc.get_answer(), 12)
+
+    def test_multiply_by_zero(self):
+        # starting from 0: 0 * n = 0
+        self.calc.multiply(5)
+        self.assertEqual(self.calc.get_answer(), 0)
+
+    def test_multiply_by_negative(self):
+        self.calc._answer = -2
+        self.calc.multiply(3)
+        self.assertEqual(self.calc.get_answer(), -6)
 if __name__ == "__main__":
     unittest.main()
