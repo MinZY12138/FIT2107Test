@@ -19,5 +19,17 @@ class TestInitialAndReset(unittest.TestCase):
         self.calc.reset()
         self.assertEqual(self.calc.get_answer(), 0)
 
+class TestAdd(unittest.TestCase):
+    def setUp(self):
+        self.calc = Calculator()
+
+    def test_add_positive(self):
+        self.calc.add(5)
+        self.assertEqual(self.calc.get_answer(), 5)
+
+    def test_add_negative(self):
+        self.calc.add(-3)
+        self.assertEqual(self.calc.get_answer(), -3)
+
 if __name__ == "__main__":
     unittest.main()
