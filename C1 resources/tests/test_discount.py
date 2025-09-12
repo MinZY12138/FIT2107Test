@@ -34,7 +34,7 @@ class TestCalculateDiscount(unittest.TestCase):
         self.assertEqual(calculate_discount(49), 0.00)
 
     def test_age_50(self):
-        self.assertEqual(calculate_discount(50), 0.10,)
+        self.assertEqual(calculate_discount(50), 0.10)
 
     # 50 < age <= 64
     def test_age_51(self):
