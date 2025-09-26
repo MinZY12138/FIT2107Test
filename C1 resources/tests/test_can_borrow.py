@@ -20,113 +20,125 @@ Student ID: 34075887
 import unittest
 from src.borrow import can_borrow
 
+# Simple constants are fine in tests
 LOAN_DAYS = {"Short": 7, "Medium": 14, "Long": 28}
 
-def fees_str_to_float(outstanding_fees: str) -> float:
-    return 10.0 if str(outstanding_fees).strip().lower() == "yes" else 0.0
-
-def trained_str_to_bool(training: str) -> bool:
-    return str(training).strip().lower() == "trained"
-
-def age_bucket_to_int(patron_age: str) -> int:
-    s = str(patron_age).strip()
-    if s.startswith("<"):
-        return 17
-    if s.startswith(">=") or s.startswith("=>"):
-        return 90
-    if "-" in s:
-        return 30
-    try:
-        return int(s)
-    except Exception:
-        return 30
-
-
 class TestCanBorrow(unittest.TestCase):
-    # 1 CarpentryTool, <18, Short, Fees=Yes, GardenTrained, CarpentryNotTrained -> NOT ALLOWED
-    def test_deny_carpentry_u18_S_fee(self):
-        result = can_borrow("CarpentryTool", age_bucket_to_int("<18"), LOAN_DAYS["Short"], fees_str_to_float("Yes"),
-                            False,                                     # gardening N/A -> False
-                            trained_str_to_bool("NotTrained"))         # carpentry from table
-        self.assertEqual(result, False)
+    # 1 CarpentryTool, <18, Short, Fees=Yes, CarpentryNotTrained -> DENY
+    def test_deny_carpentry_under18_short_with_fees_carpentry_not_trained(self):
+        result = can_borrow(
+            "CarpentryTool", 17, LOAN_DAYS["Short"], 10.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertFalse(result)
 
-    # 2 GardeningTool, <18, Long, Fees=No, GardenNotTrained, CarpentryTrained -> NOT ALLOWED
-    def test_deny_gardening_u18_L_nofee(self):
-        result = can_borrow("GardeningTool", age_bucket_to_int("<18"), LOAN_DAYS["Long"], fees_str_to_float("No"),
-                            trained_str_to_bool("NotTrained"),         # gardening from table
-                            False)                                     # carpentry N/A -> False
-        self.assertEqual(result, False)
+    # 2 GardeningTool, <18, Long, Fees=No, GardeningNotTrained -> DENY
+    def test_deny_gardening_under18_long_no_fees_gardening_not_trained(self):
+        result = can_borrow(
+            "GardeningTool", 17, LOAN_DAYS["Long"], 0.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertFalse(result)
 
     # 3 Book, 90+, Medium, Fees=Yes -> ALLOW
-    def test_allow_book_90p_M_fee(self):
-        result = can_borrow("Book", age_bucket_to_int(">=90"), LOAN_DAYS["Medium"], fees_str_to_float("Yes"),
-                            False, False)                               # both N/A
-        self.assertEqual(result, True)
+    def test_allow_book_age90plus_medium_with_fees(self):
+        result = can_borrow(
+            "Book", 90, LOAN_DAYS["Medium"], 10.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertTrue(result)
 
-    # 4 Book, adult, Medium, Fees=No -> ALLOW
-    def test_allow_book_adult_M_nofee(self):
-        result = can_borrow("Book", age_bucket_to_int("18-89"), LOAN_DAYS["Medium"], fees_str_to_float("No"),
-                            False, False)
-        self.assertEqual(result, True)
+    # 4 Book, adult(30), Medium, Fees=No -> ALLOW
+    def test_allow_book_adult_medium_no_fees(self):
+        result = can_borrow(
+            "Book", 30, LOAN_DAYS["Medium"], 0.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertTrue(result)
 
     # 5 Book, 90+, Long, Fees=No -> ALLOW
-    def test_allow_book_90p_L_nofee(self):
-        result = can_borrow("Book", age_bucket_to_int(">=90"), LOAN_DAYS["Long"], fees_str_to_float("No"),
-                            False, False)
-        self.assertEqual(result, True)
+    def test_allow_book_age90plus_long_no_fees(self):
+        result = can_borrow(
+            "Book", 90, LOAN_DAYS["Long"], 0.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertTrue(result)
 
-    # 6 CarpentryTool, adult, Short, Fees=Yes, CarpentryTrained -> NOT ALLOWED
-    def test_deny_carpentry_adult_S_fee(self):
-        result = can_borrow("CarpentryTool", age_bucket_to_int("18-89"), LOAN_DAYS["Short"], fees_str_to_float("Yes"),
-                            False,
-                            trained_str_to_bool("Trained"))
-        self.assertEqual(result, False)
+    # 6 CarpentryTool, adult(30), Short, Fees=Yes, CarpentryTrained -> DENY
+    def test_deny_carpentry_adult_short_with_fees_carpentry_trained(self):
+        result = can_borrow(
+            "CarpentryTool", 30, LOAN_DAYS["Short"], 10.0,
+            gardening_training=False,
+            carpentry_training=True
+        )
+        self.assertFalse(result)
 
-    # 7 CarpentryTool, 90+, Long, Fees=No, CarpentryTrained -> NOT ALLOWED
-    def test_deny_carpentry_90p_L_nofee(self):
-        result = can_borrow("CarpentryTool", age_bucket_to_int(">=90"), LOAN_DAYS["Long"], fees_str_to_float("No"),
-                            False,
-                            trained_str_to_bool("Trained"))
-        self.assertEqual(result, False)
+    # 7 CarpentryTool, 90+, Long, Fees=No, CarpentryTrained -> DENY
+    def test_deny_carpentry_age90plus_long_no_fees_carpentry_trained(self):
+        result = can_borrow(
+            "CarpentryTool", 90, LOAN_DAYS["Long"], 0.0,
+            gardening_training=False,
+            carpentry_training=True
+        )
+        self.assertFalse(result)
 
     # 8 Book, 90+, Short, Fees=No -> ALLOW
-    def test_allow_book_90p_S_nofee(self):
-        result = can_borrow("Book", age_bucket_to_int(">=90"), LOAN_DAYS["Short"], fees_str_to_float("No"),
-                            False, False)
-        self.assertEqual(result, True)
+    def test_allow_book_age90plus_short_no_fees(self):
+        result = can_borrow(
+            "Book", 90, LOAN_DAYS["Short"], 0.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertTrue(result)
 
-    # 9 CarpentryTool, <18, Medium, Fees=No, CarpentryTrained -> NOT ALLOWED
-    def test_deny_carpentry_u18_M_nofee(self):
-        result = can_borrow("CarpentryTool", age_bucket_to_int("<18"), LOAN_DAYS["Medium"], fees_str_to_float("No"),
-                            False,
-                            trained_str_to_bool("Trained"))
-        self.assertEqual(result, False)
+    # 9 CarpentryTool, <18, Medium, Fees=No, CarpentryTrained -> DENY
+    def test_deny_carpentry_under18_medium_no_fees_carpentry_trained(self):
+        result = can_borrow(
+            "CarpentryTool", 17, LOAN_DAYS["Medium"], 0.0,
+            gardening_training=False,
+            carpentry_training=True
+        )
+        self.assertFalse(result)
 
-    # 10 GardeningTool, 90+, Medium, Fees=Yes, GardenTrained -> NOT ALLOWED
-    def test_deny_gardening_90p_M_fee(self):
-        result = can_borrow("GardeningTool", age_bucket_to_int(">=90"), LOAN_DAYS["Medium"], fees_str_to_float("Yes"),
-                            trained_str_to_bool("Trained"),
-                            False)
-        self.assertEqual(result, False)
+    # 10 GardeningTool, 90+, Medium, Fees=Yes, GardeningTrained -> DENY
+    def test_deny_gardening_age90plus_medium_with_fees_gardening_trained(self):
+        result = can_borrow(
+            "GardeningTool", 90, LOAN_DAYS["Medium"], 10.0,
+            gardening_training=True,
+            carpentry_training=False
+        )
+        self.assertFalse(result)
 
-    # 11 GardeningTool, adult, Long, Fees=Yes, GardenTrained -> NOT ALLOWED
-    def test_deny_gardening_adult_L_fee(self):
-        result = can_borrow("GardeningTool", age_bucket_to_int("18-89"), LOAN_DAYS["Long"], fees_str_to_float("Yes"),
-                            trained_str_to_bool("Trained"),
-                            False)
-        self.assertEqual(result, False)
+    # 11 GardeningTool, adult(30), Long, Fees=Yes, GardeningTrained -> DENY
+    def test_deny_gardening_adult_long_with_fees_gardening_trained(self):
+        result = can_borrow(
+            "GardeningTool", 30, LOAN_DAYS["Long"], 10.0,
+            gardening_training=True,
+            carpentry_training=False
+        )
+        self.assertFalse(result)
 
-    # 12 GardeningTool, <18, Short, Fees=Yes, GardenNotTrained -> NOT ALLOWED
-    def test_deny_gardening_u18_S_fee(self):
-        result = can_borrow("GardeningTool", age_bucket_to_int("<18"), LOAN_DAYS["Short"], fees_str_to_float("Yes"),
-                            trained_str_to_bool("NotTrained"),
-                            False)
-        self.assertEqual(result, False)
+    # 12 GardeningTool, <18, Short, Fees=Yes, GardeningNotTrained -> DENY
+    def test_deny_gardening_under18_short_with_fees_gardening_not_trained(self):
+        result = can_borrow(
+            "GardeningTool", 17, LOAN_DAYS["Short"], 10.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertFalse(result)
 
     # 13 Book, <18, Medium, Fees=No -> ALLOW
-    def test_allow_book_u18_M_nofee(self):
-        result = can_borrow("Book", age_bucket_to_int("<18"), LOAN_DAYS["Medium"], fees_str_to_float("No"),
-                            False, False)
-        self.assertEqual(result, True)
+    def test_allow_book_under18_medium_no_fees(self):
+        result = can_borrow(
+            "Book", 17, LOAN_DAYS["Medium"], 0.0,
+            gardening_training=False,
+            carpentry_training=False
+        )
+        self.assertTrue(result)
 
 
