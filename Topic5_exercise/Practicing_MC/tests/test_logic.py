@@ -1,6 +1,6 @@
 import unittest
 
-from src.my_code import method_to_test
+from src.Logic import method_to_test
 
 '''
 Possible tests:
