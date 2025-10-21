@@ -24,7 +24,7 @@ Possible tests:
 Chosen optimal MC/DC set (different from the sample above):
 - 6, 10, 11, 12, 14
 
-Rationale (independence pairs):
+independence pairs:
 - A: (6 → F) vs (14 → T) with only A toggled via using 10/12 as anchors
 - B: (10 → F) vs (14 → T)
 - C: (11 → F) vs (12 → T)
