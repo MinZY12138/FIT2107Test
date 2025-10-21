@@ -16,5 +16,14 @@ Possible tests:
 
 Possible optimal sets of tests using MC/DC:
 
-Set chosen: 
+MC/DC independence pairs justification:
+- A: (1, 5)
+- B: (1, 3)
+- C: (1, 2)
+
+Chosen optimal set:
+- {1, 2, 3, 5}
+
+Set chosen: {1, 2, 3, 5}
 '''
+
