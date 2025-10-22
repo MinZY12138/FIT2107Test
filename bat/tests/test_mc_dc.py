@@ -3,6 +3,11 @@ import unittest
 from src.business_logic import can_borrow_carpentry_tool
 
 '''
+MC/DC condition definitions:
+A: fees_owed > 0
+B: patron_age <= 18
+C: patron_age >= 90
+
 Possible tests:
 1: A=F, B=F, C=F, Outcome=T
 2: A=F, B=F, C=T, Outcome=F
@@ -10,7 +15,6 @@ Possible tests:
 4: A=T, B=F, C=F, Outcome=F
 5: A=T, B=F, C=T, Outcome=F
 6: A=T, B=T, C=F, Outcome=F
-
 
 Possible optimal sets of tests using MC/DC: {1, 2, 3, 5}
 
