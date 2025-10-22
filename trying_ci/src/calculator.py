@@ -35,4 +35,3 @@ class Calculator:
         """Raise the stored answer to the given power and return self."""
         self._answer **= num
         return self
-
