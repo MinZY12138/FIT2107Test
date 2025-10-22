@@ -23,4 +23,3 @@ class Calculator(object):
     def power(self, num):
         self._answer ** num
         return self
-    
