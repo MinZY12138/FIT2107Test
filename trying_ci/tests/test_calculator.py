@@ -9,7 +9,6 @@ class TestCalculator(unittest.TestCase):
 
     def setUp(self):
         """Set up a Calculator instance for each test."""
-        pass
 
     def test_initial_answer(self):
         """Test that a new Calculator starts with an answer of zero."""
