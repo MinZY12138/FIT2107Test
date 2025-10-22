@@ -1,5 +1,6 @@
 """Basic calculator used in CI static analysis demo."""
 
+
 class Calculator:
     """Provide simple arithmetic operations."""
 
