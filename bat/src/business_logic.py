@@ -24,45 +24,43 @@ def type_of_patron(age):
     '''
     if age < 0:
         return "ERROR"
-    elif age < 18:
+
+    if age < 18:
         return "Minor"
-    elif age < 90:
+
+    if age < 90:
         return "Adult"
-    else:
-        return "Elderly"
+
+    return "Elderly"
 
 
-def can_borrow(
-        type_of_item,
-        patron_age,
-        length_of_loan,
-        outstanding_fees,
-        gardening_tool_training,
-        carpentry_tool_training
-        ):
+def can_borrow(type_of_item, patron_info):
     '''
     Determine whether a loan can occur.
-        Args:
-            type_of_item (string): either "Book", "Gardening tool", or "Carpentry tool".
-            patron_age (int): the age of the patron wanting to borrow the item, in years.
-            length_of_loan (int): the number of days the patron wants to loan the item for.
-            outstanding_fees (float): the fees the patron owes, before any discounts are considered.
-            gardening_tool_training (bool): 
-            whether the patron has completed the gardening tool training or not.
-            carpentry_tool_training (bool): 
-            whether the patron has completed the carpentry tool training or not.
-        Returns:
-            True if the patron is allowed to borrow the item, otherwise false. 
-            False if an invalid item type is provided.
+
+    Args:
+        type_of_item (str): "Book", "Gardening tool", or "Carpentry tool".
+        patron_info (dict): Information about the patron, including
+            age, loan length, fees, and trainings.
     '''
+    patron_age = patron_info["age"]
+    length_of_loan = patron_info["length"]
+    outstanding_fees = patron_info["fees"]
+    gardening_tool_training = patron_info["gardening_training"]
+    carpentry_tool_training = patron_info["carpentry_training"]
+
     if type_of_item == "Book":
         return can_borrow_book(patron_age, length_of_loan, outstanding_fees)
-    elif type_of_item == "Gardening tool":
+
+    if type_of_item == "Gardening tool":
         return can_borrow_gardening_tool(
-            patron_age, length_of_loan, outstanding_fees, gardening_tool_training)
-    elif type_of_item == "Carpentry tool":
+        patron_age, length_of_loan, outstanding_fees, gardening_tool_training
+    )
+
+    if type_of_item == "Carpentry tool":
         return can_borrow_carpentry_tool(
-            patron_age, length_of_loan, outstanding_fees, carpentry_tool_training)
+        patron_age, length_of_loan, outstanding_fees, carpentry_tool_training
+    )
 
     return False
 
@@ -119,7 +117,7 @@ def can_borrow_gardening_tool(
 
     if length_of_loan > 28:
         return False
-    
+ 
     return gardening_tool_training
 
 
@@ -151,7 +149,7 @@ def can_borrow_carpentry_tool(
 
     if length_of_loan > 14:
         return False
-    
+
     return carpentry_tool_training
 
 
@@ -178,13 +176,13 @@ def can_use_makerspace(patron_age, outstanding_fees, makerspace_training):
 
     if patron_type == "ERROR":
         result = False
-    elif patron_type == "Elderly" or patron_type == "Minor":
+    elif patron_type in ("Elderly", "Minor"):
         result = False
     else:
         discount = calculate_discount(patron_age)
         fees_owed -= outstanding_fees * (discount / 100)
 
-    if result == True and fees_owed > 0:
+    if result is True and fees_owed > 0:
         result = False
 
     return result
@@ -206,14 +204,18 @@ def calculate_discount(age):
     '''
     if age < 0:
         return "ERROR"
-    elif age < 50:
+
+    if age < 50:
         return 0
-    elif (age >= 50) and (age < 65):
+
+    if 50 <= age < 65:
         return 10
-    elif (age >= 65) and (age < 90):
+
+    if 65 <= age < 90:
         return 15
-    elif age >= 90:
-        return 100
+
+    return 100
+
 
 
 def process_return(patron, item_id):
@@ -226,7 +228,7 @@ def process_return(patron, item_id):
             item_id (int): the ID of the item being returned.
     '''
     to_return = patron.find_loan(item_id)
-    to_return._item._on_loan - 1
+    to_return._item._on_loan -= 1
     patron._loans.remove(to_return)
 
 
@@ -261,5 +263,5 @@ def process_loan(patron, item, length_of_loan):
         item._on_loan += 1
 
         return True
-    else:
-        return False
+
+    return False
