@@ -1,0 +1,82 @@
+[33meeb63f9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: checkout: moving from eeb63f944ef24a18ef2affab59b2cf66cd586219 to main
+[33meeb63f9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: commit: I misunderstood the content of CYK and have reverted to the previous version before starting.
+[33md53583d[m HEAD@{2}: checkout: moving from main to d53583d4265bb3338c51d476a123745cb8490fd2
+[33m0e68369[m HEAD@{3}: commit: Edit loan.py, patron.py, search.py, user_input.py to improve scorces.
+[33m603189d[m HEAD@{4}: commit: resolve pylint issues in business_logic.py (except W0212)
+[33m68d5047[m HEAD@{5}: commit: Fixed many Line too long issue and cannot find the code number now.
+[33ma9fd0fb[m HEAD@{6}: commit: Refactor BAT and UI structure, fix pylint returns and style issues.
+[33md53583d[m HEAD@{7}: commit: Reset .gitlab-ci.yml in order to test bat.
+[33mf35945a[m HEAD@{8}: commit: Fix lint/style: add docstrings and rename unused mock args
+[33mcb38eee[m HEAD@{9}: commit: Fix lint/style: docstrings, rename min/max params, newline and line length
+[33m48000b1[m HEAD@{10}: commit: Change code to T6 exercise.
+[33mc3e55a0[m HEAD@{11}: commit: Fix E302: add required blank lines before class definition
+[33mebf3317[m HEAD@{12}: commit: Remove unnecessary pass in setUp to satisfy pylint
+[33mb188ea2[m HEAD@{13}: commit: Add docstrings to test_calculator to satisfy pylint
+[33mca5a12d[m HEAD@{14}: commit: remove trailing newlines
+[33m4704abc[m HEAD@{15}: commit: Fix pylint issues and docstrings in Calculator
+[33m79c0260[m HEAD@{16}: commit: Add final newline
+[33m8d57bf2[m HEAD@{17}: commit: Deleted whitespace
+[33md7e017b[m HEAD@{18}: commit: Testing updated configuration.
+[33mf22c548[m HEAD@{19}: commit: deleted a useless package.
+[33m19cbc49[m HEAD@{20}: commit: Udate a new version of .gitlab-ci.yml
+[33m5beb30f[m HEAD@{21}: commit: uadate the file from Ed to test CI
+[33m1d9f015[m HEAD@{22}: commit: Created .gitlab-ci.yml
+[33m44ed1f3[m HEAD@{23}: commit: Fixed bugs of test_ui.py
+[33m20a3e4f[m HEAD@{24}: commit: Completed TYK.
+[33mfd74650[m HEAD@{25}: commit: Ready to do TYK for P7
+[33m3de0d26[m HEAD@{26}: commit: Define the A B C in MC/DC in order to judge the condition.
+[33m1434a9e[m HEAD@{27}: commit: raname the answer in order to identify.
+[33me40822f[m HEAD@{28}: commit: fixed bug of test 2.
+[33mb7fb597[m HEAD@{29}: commit: update the answer of self-led.
+[33m027e9a8[m HEAD@{30}: commit: First version of test_number_guess
+[33m105d26f[m HEAD@{31}: commit: import code of number_guess.py
+[33m5a5eeb8[m HEAD@{32}: commit: write a test for user_input
+[33m5bc02cf[m HEAD@{33}: commit: Import user_input.py
+[33m935ad9c[m HEAD@{34}: commit: Delete the invaild test of possible tests and change the outcome result.
+[33mab4f73b[m HEAD@{35}: commit: fixed mistake
+[33m19641da[m HEAD@{36}: commit: Write each feasible path a test method
+[33mb19c11e[m HEAD@{37}: commit: test coverage and write Feasible paths
+[33mb7b4d8b[m HEAD@{38}: commit: Write the test case for MC/DC.
+[33m12ae45d[m HEAD@{39}: commit: List the optimal sets of tests using MC/DC
+[33me514f37[m HEAD@{40}: commit: List all possible tests and numbering each test.
+[33m5498ea0[m HEAD@{41}: commit: compare with answer
+[33m20cf07f[m HEAD@{42}: commit: completed the implement of test coverage
+[33mf5c3667[m HEAD@{43}: commit: copy the path coverage code from quiz
+[33m15b2092[m HEAD@{44}: commit: fixed some bugs
+[33m154162d[m HEAD@{45}: commit: Implementing MC/DC by the quiz.
+[33m7e3f0a4[m HEAD@{46}: commit: write test cases for statisics.py to test coverage.
+[33me171216[m HEAD@{47}: commit: some test cases for calculator to test the coverage
+[33m5ce95a3[m HEAD@{48}: commit: Ready to implement test for coverage
+[33m5049a26[m HEAD@{49}: commit: import bat.zip
+[33m26d44c7[m HEAD@{50}: commit: Add error message
+[33m138b7e7[m HEAD@{51}: commit: "test: simplify can_borrow tests by removing conversions and renaming methods with descriptive names"
+[33mf8f6f8c[m HEAD@{52}: commit: little mistake
+[33mbaf3775[m HEAD@{53}: commit: Revised test naming to be more meaningful and applied fixes (removed main, switched to assertEqual) as shown in Ed video.
+[33m749ed0f[m HEAD@{54}: commit: Refactored tests to use basic unittest methods.
+[33m3863561[m HEAD@{55}: commit: add integration tests covering all calculator methods
+[33mb146205[m HEAD@{56}: commit: implement power() to pass tests
+[33m321ad89[m HEAD@{57}: commit: add failing tests for power() with basic, zero and one exponents
+[33m7b5c739[m HEAD@{58}: commit: implement multiply() to pass tests.
+[33mb8e4abc[m HEAD@{59}: commit: add failing test for multiply()
+[33m6d4210e[m HEAD@{60}: commit: implement subtract() to pass tests.
+[33m5723405[m HEAD@{61}: commit: add failing tests for subtract().
+[33ma3344dd[m HEAD@{62}: commit: implement add() to pass tests
+[33m1d52b67[m HEAD@{63}: commit: add failing tests for add() with positive and negative numbers.
+[33mdb93937[m HEAD@{64}: commit: implement get_answer() and reset() to pass tests
+[33me259d80[m HEAD@{65}: commit: test: add failing tests for initial answer and reset
+[33m7d40bd8[m HEAD@{66}: commit: Fixed a mistake
+[33m40e4e86[m HEAD@{67}: commit: Received P4 feedback and updated test design tables; also revised C1 code implementation.
+[33mee25bce[m HEAD@{68}: commit: Implement all testing and checked out by stub, verified that tests run correctly and all return FAIL as expected with stub.
+[33m62668aa[m HEAD@{69}: commit: Add stubs for discount and borrow; implement pairwise tests in test_can_borrow
+[33m9630a93[m HEAD@{70}: commit: add pairwise model and generated test cases for borrowing eligibility
+[33mba85ae9[m HEAD@{71}: commit: refactor: updated test structure to match feedback (test each method in isolation, then chaining)
+[33md9d3bb4[m HEAD@{72}: commit: implement methods and method-chaining to pass tests
+[33m0a49880[m HEAD@{73}: commit: add unit tests for Calculator methods
+[33m90b071b[m HEAD@{74}: commit: add Calculator class with method stubs
+[33m7fcd89f[m HEAD@{75}: commit: Setted up all folders and files, and ready to do TDD
+[33me9f7c56[m HEAD@{76}: commit: implement mean/minimum/maximum without builtins; validate empty input
+[33m66edff0[m HEAD@{77}: commit: implement sum with manual accumulation, add unit tests
+[33m139a707[m HEAD@{78}: commit: Write the method stub
+[33mb5ccf1e[m HEAD@{79}: commit: Setting up for python
+[33mcfcab8f[m HEAD@{80}: commit: Filled out README.md
+[33m43eb769[m HEAD@{81}: clone: from https://git.infotech.monash.edu/fit2107UG/2025s2/zmin0008.git
