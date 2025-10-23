@@ -2,8 +2,7 @@ before_script:
   - /usr/local/bin/python3.12 -m venv venv
   - source venv/bin/activate
   - /usr/local/bin/pip3 install -r requirements.txt
-  - cd ./Topic6_exercise/Testing_user_input
-
+  - cd ./bat
 lint-src:
   tags:
     - fit2107
