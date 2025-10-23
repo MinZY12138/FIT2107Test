@@ -5,7 +5,6 @@ Assignment code for FIT2107 Software Quality and Testing.
 Not to be shared or distributed without permission.
 '''
 
-import json
 
 class BorrowableItem():
     '''

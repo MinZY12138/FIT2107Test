@@ -9,7 +9,6 @@ from src import user_input
 from src import search
 from src import business_logic
 
-from src.patron import Patron
 
 class BatUI():
     '''
@@ -273,7 +272,7 @@ class BatUI():
 
         patron = search.find_patron_by_name_and_age(name, age, self._data_manager._patron_data)
 
-        if (patron is None):
+        if patron is None:
             print("!!! NO SUCH PATRON")
         else:
             allowed = business_logic.can_use_makerspace(

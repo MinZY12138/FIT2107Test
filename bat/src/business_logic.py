@@ -32,7 +32,14 @@ def type_of_patron(age):
         return "Elderly"
 
 
-def can_borrow(type_of_item, patron_age, length_of_loan, outstanding_fees, gardening_tool_training, carpentry_tool_training):
+def can_borrow(
+        type_of_item,
+        patron_age,
+        length_of_loan,
+        outstanding_fees,
+        gardening_tool_training,
+        carpentry_tool_training
+        ):
     '''
     Determine whether a loan can occur.
         Args:
@@ -40,17 +47,22 @@ def can_borrow(type_of_item, patron_age, length_of_loan, outstanding_fees, garde
             patron_age (int): the age of the patron wanting to borrow the item, in years.
             length_of_loan (int): the number of days the patron wants to loan the item for.
             outstanding_fees (float): the fees the patron owes, before any discounts are considered.
-            gardening_tool_training (bool): whether the patron has completed the gardening tool training or not.
-            carpentry_tool_training (bool): whether the patron has completed the carpentry tool training or not.
+            gardening_tool_training (bool): 
+            whether the patron has completed the gardening tool training or not.
+            carpentry_tool_training (bool): 
+            whether the patron has completed the carpentry tool training or not.
         Returns:
-            True if the patron is allowed to borrow the item, otherwise false. False if an invalid item type is provided.
+            True if the patron is allowed to borrow the item, otherwise false. 
+            False if an invalid item type is provided.
     '''
     if type_of_item == "Book":
         return can_borrow_book(patron_age, length_of_loan, outstanding_fees)
     elif type_of_item == "Gardening tool":
-        return can_borrow_gardening_tool(patron_age, length_of_loan, outstanding_fees, gardening_tool_training)
+        return can_borrow_gardening_tool(
+            patron_age, length_of_loan, outstanding_fees, gardening_tool_training)
     elif type_of_item == "Carpentry tool":
-        return can_borrow_carpentry_tool(patron_age, length_of_loan, outstanding_fees, carpentry_tool_training)
+        return can_borrow_carpentry_tool(
+            patron_age, length_of_loan, outstanding_fees, carpentry_tool_training)
 
     return False
 
@@ -61,37 +73,43 @@ def can_borrow_book(patron_age, length_of_loan, outstanding_fees):
         Args:
             patron_age (int): the age of the patron wanting to borrow the item, in years.
             length_of_loan (int): the number of days the patron wants to loan the item for.
-            outstanding_fees (float): the fees the patron owes, before any discounts are considered.
+            outstanding_fees (float): 
+            the fees the patron owes, before any discounts are considered.
         Returns:
             True if the patron is allowed to borrow the book, otherwise false.
-            A patron is allowed to borrow a book for up to 8 weeks if they have no fees owed (i.e., fees
-            to pay after discounts are considered). If the patron has fees owed they are not allowed
-            to borrow a book.
+            A patron is allowed to borrow a book for up to 8 weeks if no fees owed (i.e., fees
+            to pay after discounts are considered). 
+            If the patron has fees owed they are not allowed to borrow a book.
     '''
     if length_of_loan >= 56:
         return False
-    
+
     discount = calculate_discount(patron_age)
     fees_owed = outstanding_fees - (outstanding_fees * (discount / 100))
 
     if fees_owed > 0:
         return False
-    
+
     return True
 
 
-def can_borrow_gardening_tool(patron_age, length_of_loan, outstanding_fees, gardening_tool_training):
+def can_borrow_gardening_tool(
+        patron_age, length_of_loan, outstanding_fees, gardening_tool_training):
     '''
     Determine whether a gardening tool loan can occur.
         Args:
-            patron_age (int): the age of the patron wanting to borrow the item, in years.
-            length_of_loan (int): the number of days the patron wants to loan the item for.
-            outstanding_fees (float): the fees the patron owes, before any discounts are considered.
-            gardening_tool_training (bool): whether the patron has completed the gardening tool training or not.
+            patron_age (int): 
+            the age of the patron wanting to borrow the item, in years.
+            length_of_loan (int): 
+            the number of days the patron wants to loan the item for.
+            outstanding_fees (float): 
+            the fees the patron owes, before any discounts are considered.
+            gardening_tool_training (bool): 
+            whether the patron has completed the gardening tool training or not.
         Returns:
             True if the patron is allowed to borrow the gardening tool, otherwise false.
             A patron is allowed to borrow a gardening tool for up to 4 weeks.
-            They are not allowed to borrow a gardening tool if they have not completed the gardening tool
+            They are not allowed to borrow a gardening tool if not completed the gardening tool
             training or if they have fees owed (i.e., fees to pay after discounts are considered).
     '''
     discount = calculate_discount(patron_age)
@@ -105,20 +123,25 @@ def can_borrow_gardening_tool(patron_age, length_of_loan, outstanding_fees, gard
     return gardening_tool_training
 
 
-def can_borrow_carpentry_tool(patron_age, length_of_loan, outstanding_fees, carpentry_tool_training):
+def can_borrow_carpentry_tool(
+        patron_age, length_of_loan, outstanding_fees, carpentry_tool_training):
     '''
     Determine whether a carpentry tool loan can occur.
         Args:
-            patron_age (int): the age of the patron wanting to borrow the item, in years.
-            length_of_loan (int): the number of days the patron wants to loan the item for.
-            outstanding_fees (float): the fees the patron owes, before any discounts are considered.
-            carpentry_tool_training (bool): whether the patron has completed the carpentry tool training or not.
+            patron_age (int): 
+            the age of the patron wanting to borrow the item, in years.
+            length_of_loan (int): 
+            the number of days the patron wants to loan the item for.
+            outstanding_fees (float): 
+            the fees the patron owes, before any discounts are considered.
+            carpentry_tool_training (bool): 
+            whether the patron has completed the carpentry tool training or not.
         Returns:
             True if the patron is allowed to borrow the carpentry tool, otherwise false.
             A patron is allowed to borrow a carpentry tool for up to 2 weeks.
-            They are not allowed to borrow a carpentry tool if they have not completed the carpentry tool
-            training, if they have fees owed (i.e., fees to pay after discounts are considered), or if
-            they are not classified as an adult.
+            They are not allowed to borrow a carpentry tool if not completed the carpentry tool
+            training, if they have fees owed (i.e., fees to pay after discounts are considered),
+            or if they are not classified as an adult.
     '''
     discount = calculate_discount(patron_age)
     fees_owed = outstanding_fees - (outstanding_fees * (discount / 100))
@@ -136,29 +159,32 @@ def can_use_makerspace(patron_age, outstanding_fees, makerspace_training):
     '''
     Determine whether a patron can use the makerspace.
         Args:
-            patron_age (int): the age of the patron wanting to use the makerspace.
-            outstanding_fees (float): the fees the patron owes, before any discounts are considered.
-            makerspace_training (bool): whether the patron has completed the makerspace training or not.
+            patron_age (int): 
+            the age of the patron wanting to use the makerspace.
+            outstanding_fees (float): 
+            the fees the patron owes, before any discounts are considered.
+            makerspace_training (bool): 
+            whether the patron has completed the makerspace training or not.
         Returns:
             True if the patron is allowed to use the makerspace, otherwise false.
-            A patron is allowed to use the makerspace if they have completed the training, have no
-            fees owed (i.e., fees to pay after discounts are considered), and are classified as
-            an adult.
+            A patron is allowed to use the makerspace if they have completed the training, 
+            have no fees owed (i.e., fees to pay after discounts are considered), 
+            and are classified as an adult.
     '''
     result = makerspace_training
 
     patron_type = type_of_patron(patron_age)
     fees_owed = outstanding_fees
 
-    if (patron_type == "ERROR"):
+    if patron_type == "ERROR":
         result = False
-    elif (patron_type == "Elderly") or (patron_type == "Minor"):
+    elif patron_type == "Elderly" or patron_type == "Minor":
         result = False
     else:
         discount = calculate_discount(patron_age)
         fees_owed -= outstanding_fees * (discount / 100)
 
-    if (result == True) and (fees_owed > 0):
+    if result == True and fees_owed > 0:
         result = False
 
     return result
@@ -170,7 +196,8 @@ def calculate_discount(age):
         Args:
             age (int): a patron's age in years.
         Returns:
-            The discount the patron is entitled to, as a whole number percentage, or "ERROR"
+            The discount the patron is entitled to,
+            as a whole number percentage, or "ERROR"
             if an invalid (i.e., negative) age is entered.
             - Patrons under 50 receive no discount.
             - Patrons aged 50 and over, but under 65 receive a 10% discount.
@@ -217,11 +244,22 @@ def process_loan(patron, item, length_of_loan):
             True if the loan was successful, or false if it could not be completed.
     '''
     due_date = date.today() + timedelta(days=length_of_loan)
-    
-    if can_borrow(item._type, patron._age, length_of_loan, patron._outstanding_fees, patron._gardening_tool_training, patron._carpentry_tool_training):
+
+    if can_borrow(
+        item._type,
+        patron._age,
+        length_of_loan,
+        patron._outstanding_fees,
+        patron._gardening_tool_training,
+        patron._carpentry_tool_training
+        ):
+
         new_loan = Loan(item, due_date)
+
         patron._loans.append(new_loan)
+
         item._on_loan += 1
+
         return True
     else:
         return False
