@@ -5,11 +5,10 @@ Assignment code for FIT2107 Software Quality and Testing.
 Not to be shared or distributed without permission.
 '''
 
-import json
 from datetime import datetime
 
 from src.loan import Loan
-import src.search as search
+from src import search
 
 class Patron():
     '''
@@ -67,7 +66,7 @@ class Patron():
                 loans.append(new_loan)
 
         return loans
-    
+
     def find_loan(self, item_id):
         '''
         Search for a patron's loan of the specified item.
@@ -83,7 +82,7 @@ class Patron():
                 return l
         return None
 
-    def set_new_patron_data(self, id, name, age):
+    def set_new_patron_data(self, patron_id, name, age):
         '''
         Set the ID, name, and age of the patron to a chosen value.
         Set the outstanding fees to zero, and all training completions
@@ -93,7 +92,7 @@ class Patron():
                 name (string): the patron's name.
                 age (int): the patron's age in years.
         '''
-        self._id = id
+        self._id = patron_id
         self._name = name
         self._age = age
         self._outstanding_fees = 0.0
@@ -108,7 +107,9 @@ class Patron():
         desc = [f"Patron {self._id}: {self._name} (aged {self._age})"]
         desc.append(f"Outstanding fees: ${self._outstanding_fees}")
 
-        if not (self._gardening_tool_training or self._carpentry_tool_training or self._makerspace_training):
+        if not (
+            self._gardening_tool_training or self._carpentry_tool_training or self._makerspace_training
+        ):
             desc.append("Completed training: NONE")
         else:
             desc.append("Completed training:")

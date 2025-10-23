@@ -85,42 +85,42 @@ def read_float(prompt):
     return num
 
 
-def read_integer_range(prompt, min, max):
+def read_integer_range(prompt, min_value, max_value):
     '''
     Read an integer value from the user. Continue prompting the
     user until they enter a valid integer value and it is within
     the specified range.
         Args:
             prompt (string): a message to print to the user.
-            min (int): the lowest acceptable value.
-            max (int): the highest acceptable value.
+            min_value (int): the lowest acceptable value.
+            mmin_value (int): the highest acceptable value.
 
         Return:
             the integer value the user entered.
     '''
     num = read_integer(prompt)
-    while (num < min) or (num > max):
-        print(f"Please enter a value between {min} and {max}")
+    while (num < min_value) or (num > max_value):
+        print(f"Please enter a value between {min_value} and {max_value}")
         num = read_integer(prompt)
     return num
 
 
-def read_float_range(prompt, min, max):
+def read_float_range(prompt, min_value, max_value):
     '''
     Read a float value from the user. Continue prompting the
     user until they enter a valid float value and it is within
     the specified range.
         Args:
             prompt (string): a message to print to the user.
-            min (int): the lowest acceptable value.
-            max (int): the highest acceptable value.
+            min_value (int): the lowest acceptable value.
+            mmin_value (int): the highest acceptable value.
 
         Return:
             the float value the user entered.
     '''
     num = read_float(prompt)
-    while (num < min) or (num > max):
-        print(f"Please enter a value between {min} and {max}")
+    while (num < min_value) or (num > max_value):
+        print(f"Please enter a value between {min_value} and {max_value}")
         num = read_float(prompt)
     return num
 
@@ -138,7 +138,7 @@ def read_bool(prompt):
             user entered 'N' or 'n'.
     '''
     line = read_string(prompt).lower()
-    while (line != 'y') and (line != 'n'):
+    while line not in ('y', 'n'):
         print("Please enter 'y' or 'n'")
         line = read_string(prompt).lower()
     return line

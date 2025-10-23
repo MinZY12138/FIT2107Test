@@ -22,10 +22,19 @@ class Loan():
         self._item = item
         self._due_date = due_date
 
+    def get_due_date(self):
+        '''
+        Return the due date of the loan.
+        '''
+        return self._due_date
+
     def __str__(self):
         '''
         Create and return a string representation of the loan.
         '''
-        desc = f"Item {self._item._id}: {self._item._name} ({self._item._type}); due {self._due_date.strftime('%d/%m/%Y')}"
+        desc = (
+            f"Item {self._item._id}: {self._item._name} "
+            f"({self._item._type}); due {self._due_date.strftime('%d/%m/%Y')}"
+        )
 
         return desc
