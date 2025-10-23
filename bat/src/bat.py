@@ -24,8 +24,14 @@ class Bat():
         data_manager = DataManager()
 
         ui = BatUI(data_manager)
+
+        self.run_loop(ui)
+
+    def run_loop(self, ui: BatUI):
+        '''
+        Run the BAT main UI loop until the user quits.
+        '''
         while ui.get_current_screen() != "QUIT":
             ui.run_current_screen()
-
-        ui.run_current_screen() # run the quit screen
-
+        # run the quit screen once after loop exits
+        ui.run_current_screen()

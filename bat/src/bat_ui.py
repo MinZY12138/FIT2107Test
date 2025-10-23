@@ -5,10 +5,10 @@ Assignment code for FIT2107 Software Quality and Testing.
 Not to be shared or distributed without permission.
 '''
 
-import src.user_input as user_input
-import src.data_mgmt as data_mgmt
-import src.search as search
-import src.business_logic as logic
+from src import user_input
+from src import search
+from src import business_logic
+
 from src.patron import Patron
 
 class BatUI():
@@ -37,21 +37,18 @@ class BatUI():
                 "MAIN MENU", "LOAN ITEM", "RETURN ITEM", "SEARCH FOR PATRON", "REGISTER PATRON",
                 "ACCESS MAKERSPACE", and "QUIT".
         '''
-        match self._current_screen:
-            case self._main_menu:
-                return "MAIN MENU"
-            case self._loan_item:
-                return "LOAN ITEM"
-            case self._return_item:
-                return "RETURN ITEM"
-            case self._search_for_patron:
-                return "SEARCH FOR PATRON"
-            case self._register_patron:
-                return "REGISTER PATRON"
-            case self._access_makerspace:
-                return "ACCESS MAKERSPACE"
-            case self._quit:
-                return "QUIT"
+
+        screen_map = {
+            self._main_menu: "MAIN MENU",
+            self._loan_item: "LOAN ITEM",
+            self._return_item: "RETURN ITEM",
+            self._search_for_patron: "SEARCH FOR PATRON",
+            self._register_patron: "REGISTER PATRON",
+            self._access_makerspace: "ACCESS MAKERSPACE",
+            self._quit: "QUIT",
+        }
+
+        return screen_map.get(self._current_screen, "MAIN MENU")
 
     def run_current_screen(self):
         '''
@@ -79,24 +76,19 @@ class BatUI():
             5. Validate Makerspace Access
             6. Quit
             """)
-        
+
         choice = user_input.read_integer_range('Enter your choice: ', 1, 6)
 
-        match choice:
-            case 1:
-                return self._loan_item
-            case 2:
-                return self._return_item
-            case 3:
-                return self._search_for_patron
-            case 4:
-                return self._register_patron
-            case 5:
-                return self._access_makerspace
-            case 6:
-                return self._quit
-            case _:
-                return self._main_menu
+        handlers = {
+            1: self._loan_item,
+            2: self._return_item,
+            3: self._search_for_patron,
+            4: self._register_patron,
+            5: self._access_makerspace,
+            6: self._quit,
+        }
+
+        return handlers.get(choice, self._main_menu)
 
     def _loan_item(self):
         '''
@@ -123,7 +115,7 @@ class BatUI():
         item_id = user_input.read_integer('Enter id of item to loan: ')
         item = search.find_item_by_id(item_id, self._data_manager._catalogue_data)
 
-        if item == None:
+        if item is None:
             print("!!! No such item. CANCELLING LOAN.")
         else:
             print(f"Found {item._type}: {item._name} ({item._year})")
@@ -133,13 +125,15 @@ class BatUI():
                 name = user_input.read_string("Patron's name: ")
                 age = user_input.read_integer("Patron's age: ")
 
-                patron = search.find_patron_by_name_and_age(name, age, self._data_manager._patron_data)
+                patron = search.find_patron_by_name_and_age(
+                    name, age, self._data_manager._patron_data)
 
-                if patron == None:
+                if patron is None:
                     print("!!! NO SUCH PATRON. CANCELLING LOAN.")
                 else:
-                    length_of_loan = user_input.read_integer_range("How many days is the loan for (1 - 365)? ", 1, 365)
-                    loan_success = logic.process_loan(patron, item, length_of_loan)
+                    length_of_loan = user_input.read_integer_range(
+                        "How many days is the loan for (1 - 365)? ", 1, 365)
+                    loan_success = business_logic.process_loan(patron, item, length_of_loan)
 
                     if loan_success:
                         print(f"Loan of {item._name} to {patron._name} successfully recorded")
@@ -150,7 +144,7 @@ class BatUI():
 
         return self._main_menu
 
-    
+
     def _return_item(self):
         '''
         The return item menu screen of BAT. Follows the process:
@@ -178,7 +172,7 @@ class BatUI():
 
         patron = search.find_patron_by_name_and_age(name, age, self._data_manager._patron_data)
 
-        if patron == None:
+        if patron is None:
             print("!!! NO SUCH PATRON. CANCELLING RETURN.")
         else:
             print(f"{patron._name}'s active loans:")
@@ -192,11 +186,11 @@ class BatUI():
                 print(f"That is not an ID of an item currently loaned by {patron._name}")
                 choice = user_input.read_integer("Enter the ID of the item to return: ")
 
-            logic.process_return(patron, choice)
+            business_logic.process_return(patron, choice)
             print(f"Return of item from {patron._name} successfully recorded")
 
         return self._main_menu
-    
+
     def _search_for_patron(self):
         '''
         The patron search menu screen of BAT. Allows users to enter a name or age (one 
@@ -235,9 +229,9 @@ class BatUI():
             print("PATRON(S) FOUND: ")
             for p in patrons_found:
                 print(p, end='\n')
-        
+
         return self._search_for_patron
-    
+
     def _register_patron(self):
         '''
         The register patron menu screen of BAT. Allows the user to create a new
@@ -257,7 +251,7 @@ class BatUI():
         self._data_manager.register_patron(patron_name, patron_age)
 
         return self._main_menu
-    
+
     def _access_makerspace(self):
         '''
         The makerspace validation menu screen of BAT. Allows the user to
@@ -273,16 +267,17 @@ class BatUI():
             | BAT: Validate Makerspace Access |
             -----------------------------------
             """)
-        
+
         name = user_input.read_string("Enter name: ")
         age = user_input.read_integer("Enter age: ")
 
         patron = search.find_patron_by_name_and_age(name, age, self._data_manager._patron_data)
 
-        if (patron == None):
+        if (patron is None):
             print("!!! NO SUCH PATRON")
         else:
-            allowed = logic.can_use_makerspace(patron._age, patron._outstanding_fees, patron._makerspace_training)
+            allowed = business_logic.can_use_makerspace(
+                patron._age, patron._outstanding_fees, patron._makerspace_training)
             if allowed:
                 print(f"{patron._name} is allowed to use the makerspace")
             else:
