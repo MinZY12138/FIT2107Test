@@ -36,18 +36,22 @@ class BatUI():
                 "MAIN MENU", "LOAN ITEM", "RETURN ITEM", "SEARCH FOR PATRON", "REGISTER PATRON",
                 "ACCESS MAKERSPACE", and "QUIT".
         '''
+        match self._current_screen:
+            case self._main_menu:
+                return "MAIN MENU"
+            case self._loan_item:
+                return "LOAN ITEM"
+            case self._return_item:
+                return "RETURN ITEM"
+            case self._search_for_patron:
+                return "SEARCH FOR PATRON"
+            case self._register_patron:
+                return "REGISTER PATRON"
+            case self._access_makerspace:
+                return "ACCESS MAKERSPACE"
+            case self._quit:
+                return "QUIT"
 
-        screen_map = {
-            self._main_menu: "MAIN MENU",
-            self._loan_item: "LOAN ITEM",
-            self._return_item: "RETURN ITEM",
-            self._search_for_patron: "SEARCH FOR PATRON",
-            self._register_patron: "REGISTER PATRON",
-            self._access_makerspace: "ACCESS MAKERSPACE",
-            self._quit: "QUIT",
-        }
-
-        return screen_map.get(self._current_screen, "MAIN MENU")
 
     def run_current_screen(self):
         '''
