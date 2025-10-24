@@ -82,16 +82,22 @@ class BatUI():
 
         choice = user_input.read_integer_range('Enter your choice: ', 1, 6)
 
-        handlers = {
-            1: self._loan_item,
-            2: self._return_item,
-            3: self._search_for_patron,
-            4: self._register_patron,
-            5: self._access_makerspace,
-            6: self._quit,
-        }
+        match choice:
+            case 1:
+                return self._loan_item
+            case 2:
+                return self._return_item
+            case 3:
+                return self._search_for_patron
+            case 4:
+                return self._register_patron
+            case 5:
+                return self._access_makerspace
+            case 6:
+                return self._quit
+            case _:
+                return self._main_menu
 
-        return handlers.get(choice, self._main_menu)
 
     def _loan_item(self):
         '''
