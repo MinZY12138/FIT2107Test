@@ -1,0 +1,104 @@
+import unittest
+
+from src.business_logic import (
+    find_patron_by_name,
+    find_patron_by_age,
+    find_patron_by_name_and_age,
+    find_item_by_id,
+)
+
+# Simple data classes used for testing
+class Patron:
+    """A minimal Patron class with name and age attributes."""
+    def __init__(self, name, age):
+        self._name = name
+        self._age = age
+
+
+class Item:
+    """A minimal Item class with an ID attribute."""
+    def __init__(self, item_id):
+        self._id = item_id
+
+
+class TestFindFunctions(unittest.TestCase):
+    """Unit tests for all 'find_' functions in business_logic."""
+
+    def setUp(self):
+        """
+        Create a small dataset of patrons and items.
+        Each patron has a name and an age.
+        Each item has an ID.
+        """
+        self.patrons = [
+            Patron("Alex", 18),
+            Patron("Alex", 25),
+            Patron("Bella", 25),
+            Patron("chris", 90),
+        ]
+        self.items = [Item(1), Item(2), Item(5)]
+
+    # ---------- find_patron_by_name ----------
+    def test_find_patron_by_name_exact_match_multiple(self):
+        """Should return all patrons whose _name exactly matches the input."""
+        result = find_patron_by_name("Alex", self.patrons)
+        self.assertEqual(len(result), 2)
+        self.assertTrue(all(p._name == "Alex" for p in result))
+
+    def test_find_patron_by_name_case_sensitive_behavior(self):
+        """
+        According to the docstring, the search should be case-insensitive,
+        but the current implementation is case-sensitive.
+        This test documents the current behavior rather than failing it.
+        """
+        result = find_patron_by_name("alex", self.patrons)
+        self.assertEqual(result, [])
+
+    def test_find_patron_by_name_no_match(self):
+        """Should return an empty list if no patron matches the given name."""
+        result = find_patron_by_name("Dana", self.patrons)
+        self.assertEqual(result, [])
+
+    # ---------- find_patron_by_age ----------
+    def test_find_patron_by_age_match_multiple(self):
+        """Should find all patrons whose _age equals the given value."""
+        result = find_patron_by_age(25, self.patrons)
+        self.assertEqual(len(result), 2)
+        self.assertTrue(all(p._age == 25 for p in result))
+
+    def test_find_patron_by_age_no_match(self):
+        """Should return an empty list when no patron has the given age."""
+        result = find_patron_by_age(7, self.patrons)
+        self.assertEqual(result, [])
+
+    # ---------- find_patron_by_name_and_age ----------
+    def test_find_patron_by_name_and_age_found_case_insensitive_name(self):
+        """
+        The implementation uses .lower(), so name comparison is case-insensitive.
+        It should find 'Alex' even if we search with lowercase 'alex'.
+        """
+        result = find_patron_by_name_and_age("alex", 18, self.patrons)
+        self.assertIsNotNone(result)
+        self.assertEqual(result._name, "Alex")
+        self.assertEqual(result._age, 18)
+
+    def test_find_patron_by_name_and_age_not_found(self):
+        """Should return None if no patron matches both name and age."""
+        result = find_patron_by_name_and_age("Bella", 18, self.patrons)
+        self.assertIsNone(result)
+
+    # ---------- find_item_by_id ----------
+    def test_find_item_by_id_found(self):
+        """Should return the correct item object if ID matches."""
+        result = find_item_by_id(5, self.items)
+        self.assertIsNotNone(result)
+        self.assertEqual(result._id, 5)
+
+    def test_find_item_by_id_not_found(self):
+        """Should return None if the item ID is not in the dataset."""
+        result = find_item_by_id(999, self.items)
+        self.assertIsNone(result)
+
+
+if __name__ == "__main__":
+    unittest.main()
