@@ -1,0 +1,1 @@
+[{"patron_id": 1, "name": "Alex", "age": 20, "outstanding_fees": 0.0, "gardening_tool_training": true, "carpentry_tool_training": false, "makerspace_training": true, "loans": [{"item": 99, "due": "10/10/2025"}]}]
