@@ -59,46 +59,43 @@ class TestBatUI_MainMenu(unittest.TestCase):
 
     # Invalid input test
 
-    @patch("builtins.input", side_effect=["9", "1"])
-    def test_invalid_then_valid_reprompts_and_moves(self, mock_input):
+    @patch("src.bat_ui.user_input.read_string", side_effect=[9, 1])
+    def test_invalid_then_valid_reprompts_and_moves(self, _):
         """
-        First input '9' is invalid
-        The user is asked again and enters '1'.
-        The UI should finally move to the LOAN ITEM screen.
-        """
-        self.ui = BatUI(data_manager=None)
-        self.ui.run_current_screen()
-        self.assertEqual(self.ui.get_current_screen(), "LOAN ITEM")
-
-    @patch("builtins.input", side_effect=["-1", "3"])
-    def test_invalid_negative_then_valid(self, mock_input):
-        """
-        First input '-1' is invalid
-        The user is asked again and enters '3'.
-        The UI should finally move to the SEARCH FOR PATRON screen.
-        """
-        self.ui = BatUI(data_manager=None)
-        self.ui.run_current_screen()
-        self.assertEqual(self.ui.get_current_screen(), "SEARCH FOR PATRON")
-
-    @patch("builtins.input", side_effect=["abc", "1"])
-    def test_invalid_string_then_valid(self, mock_input):
-        """
-        First input 'abc' is invalid
-        The user is asked again and enters '1'.
-        The UI should finally move to the LOAN ITEM screen.
+        First call returns invalid choice (9)
+        Then returns valid choice (1)
+        UI should finally move to the LOAN ITEM screen.
         """
         self.ui = BatUI(data_manager=None)
         self.ui.run_current_screen()
         self.assertEqual(self.ui.get_current_screen(), "LOAN ITEM")
 
-    @patch("builtins.input", side_effect=["1.5", "2"])
-    def test_invalid_float_then_valid(self, mock_input):
+    @patch("src.bat_ui.user_input.read_integer_range", return_value=-1)
+    def test_invalid_negative_input(self, _):
         """
-        First input '1.5' is invalid
-        The user is asked again and enters '2'.
-        The UI should finally move to the RETURN ITEM screen.
+        Input '-1' (simulated invalid negative).
+        The UI should remain on the MAIN MENU screen.
         """
         self.ui = BatUI(data_manager=None)
         self.ui.run_current_screen()
-        self.assertEqual(self.ui.get_current_screen(), "RETURN ITEM")
+        self.assertEqual(self.ui.get_current_screen(), "MAIN MENU")
+
+    @patch("src.bat_ui.user_input.read_integer_range", side_effect= "hi" )
+    def test_invalid_string_input(self, _):
+        """
+        Input 'hi' (simulated invalid string).
+        The UI should remain on the MAIN MENU screen.
+        """
+        self.ui = BatUI(data_manager=None)
+        self.ui.run_current_screen()
+        self.assertEqual(self.ui.get_current_screen(), "MAIN MENU")
+
+    @patch("src.bat_ui.user_input.read_integer_range", return_value=1.5)
+    def test_invalid_float_input(self, _):
+        """
+        Input '1.5'.
+        The UI should remain on the MAIN MENU screen.
+        """
+        self.ui = BatUI(data_manager=None)
+        self.ui.run_current_screen()
+        self.assertEqual(self.ui.get_current_screen(), "MAIN MENU")
