@@ -247,14 +247,15 @@ def process_loan(patron, item, length_of_loan):
     '''
     due_date = date.today() + timedelta(days=length_of_loan)
 
-    if can_borrow(
-        item._type,
-        patron._age,
-        length_of_loan,
-        patron._outstanding_fees,
-        patron._gardening_tool_training,
-        patron._carpentry_tool_training
-        ):
+    patron_info = {
+            "age": patron._age,
+            "length": length_of_loan,
+            "fees": patron._outstanding_fees,
+            "gardening_training": patron._gardening_tool_training,
+            "carpentry_training": patron._carpentry_tool_training,
+        }
+    
+    if can_borrow(item._type, patron_info):
 
         new_loan = Loan(item, due_date)
 
@@ -263,5 +264,5 @@ def process_loan(patron, item, length_of_loan):
         item._on_loan += 1
 
         return True
-
+    
     return False
