@@ -79,7 +79,7 @@ def can_borrow_book(patron_age, length_of_loan, outstanding_fees):
             to pay after discounts are considered). 
             If the patron has fees owed they are not allowed to borrow a book.
     '''
-    if length_of_loan >= 56:
+    if length_of_loan > 14:
         return False
 
     discount = calculate_discount(patron_age)
@@ -115,7 +115,7 @@ def can_borrow_gardening_tool(
     if fees_owed > 0:
         return False
 
-    if length_of_loan > 28:
+    if length_of_loan > 14:
         return False
  
     return gardening_tool_training
