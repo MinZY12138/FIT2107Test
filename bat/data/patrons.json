@@ -1007,5 +1007,15 @@
         "carpentry_tool_training": false,
         "makerspace_training": true,
         "loans" : []
+    },
+    {
+        "patron_id": 101,
+        "name": "Min",
+        "age": 18,
+        "outstanding_fees": 0,
+        "gardening_tool_training": true,
+        "carpentry_tool_training": true,
+        "makerspace_training": true,
+        "loans" : []
     }
 ]
