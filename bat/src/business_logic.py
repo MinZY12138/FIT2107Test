@@ -144,7 +144,7 @@ def can_borrow_carpentry_tool(
     discount = calculate_discount(patron_age)
     fees_owed = outstanding_fees - (outstanding_fees * (discount / 100))
 
-    if (fees_owed > 0) or (patron_age <= 18) or (patron_age >= 90):
+    if (fees_owed > 0) or (patron_age < 18) or (patron_age >= 90):
         return False
 
     if length_of_loan > 14:
