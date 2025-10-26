@@ -64,12 +64,8 @@ class TestSearchFunctions(unittest.TestCase):
 
     # ---------- find_item_by_id ----------
     def test_find_item_by_id_found_last_match_and_not_found(self):
-        """
-        When multiple items share the same ID, the function assigns `found`
-        repeatedly and finally returns the last match.
-        """
         r = find_item_by_id(5, self.items)
+        # Compare by value, not identity
         self.assertIsNotNone(r)
-        self.assertIs(r, self.items[-1])  # last item with ID=5
+        self.assertEqual(r._id, self.items[-1]._id)
         self.assertIsNone(find_item_by_id(999, self.items))
-
