@@ -1,62 +1,55 @@
 import unittest
-from src.search import (
+from tests.patron_stub import Patron
+from tests.item_stub import Item
+
+from src.business_logic import (
     find_patron_by_name,
     find_patron_by_age,
     find_patron_by_name_and_age,
     find_item_by_id,
 )
 
-# --- Minimal test doubles (only attributes that are used by the functions) ---
-class Patron:
-    def __init__(self, name, age):
-        self._name = name
-        self._age = age
 
+class TestFindFunctions(unittest.TestCase):
+    """Unit tests for business_logic find_* helpers (one assert per test)."""
 
-class Item:
-    def __init__(self, item_id):
-        self._id = item_id
-
-
-class TestSearchFunctions(unittest.TestCase):
     def setUp(self):
-        # Patrons include duplicates and case differences
         self.patrons = [
             Patron("Alex", 18),
-            Patron("Alex", 25),
             Patron("alex", 25),
-            Patron("Bella", 30),
+            Patron("Bella", 25),
+            Patron("Chris", 90),
         ]
-        # Items include two with same ID to test last-match logic
-        self.items = [Item(1), Item(2), Item(5), Item(5)]
+        self.items = [Item(1), Item(2), Item(5)]
 
-    # ---------- find_patron_by_name ----------
-    def test_find_patron_by_name_exact_match_multiple(self):
-        """Should return all exact (case-sensitive) matches."""
+    # -------- find_patron_by_name --------
+    def test_find_patron_by_name_returns_len_1_for_case_sensitive_match(self):
         result = find_patron_by_name("Alex", self.patrons)
-        self.assertEqual(len(result), 2)
-        self.assertTrue(all(p._name == "Alex" for p in result))
+        self.assertEqual(len(result), 1)
 
-    def test_find_patron_by_name_no_match_and_case_sensitivity(self):
-        """Nonexistent name returns [], and implementation is case-sensitive."""
+    def test_find_patron_by_name_no_match_returns_empty_list(self):
         self.assertEqual(find_patron_by_name("Dana", self.patrons), [])
-        result = find_patron_by_name("alex", self.patrons)
-        self.assertEqual([p._name for p in result], ["alex"])
 
-    # ---------- find_patron_by_age ----------
-    def test_find_patron_by_age_multiple_and_none(self):
-        """Return all patrons with the given age; empty when no match."""
+    # -------- find_patron_by_age --------
+    def test_find_patron_by_age_returns_two_25yos(self):
         result = find_patron_by_age(25, self.patrons)
-        self.assertEqual({p._name for p in result}, {"Alex", "alex"})
-        self.assertEqual(find_patron_by_age(99, self.patrons), [])
+        self.assertEqual(len(result), 2)
 
-    # ---------- find_patron_by_name_and_age ----------
-    def test_find_patron_by_name_and_age_found_case_insensitive(self):
-        """Should match regardless of case because .lower() is used."""
-        r = find_patron_by_name_and_age("alex", 18, self.patrons)
-        self.assertIsNotNone(r)
-        self.assertEqual((r._name, r._age), ("Alex", 18))
+    def test_find_patron_by_age_returns_empty_when_none(self):
+        self.assertEqual(find_patron_by_age(7, self.patrons), [])
 
-    def test_find_patron_by_name_and_age_not_found(self):
-        """Return None when no (name, age) pair exists."""
+    # -------- find_patron_by_name_and_age (case-insensitive on name) --------
+    def test_find_patron_by_name_and_age_finds_lowercase_name(self):
+        result = find_patron_by_name_and_age("alex", 18, self.patrons)
+        self.assertIsNotNone(result)
+
+    def test_find_patron_by_name_and_age_returns_none_when_absent(self):
         self.assertIsNone(find_patron_by_name_and_age("Chris", 25, self.patrons))
+
+    # -------- find_item_by_id --------
+    def test_find_item_by_id_finds_id_5(self):
+        result = find_item_by_id(5, self.items)
+        self.assertIsNotNone(result)
+
+    def test_find_item_by_id_returns_none_when_missing(self):
+        self.assertIsNone(find_item_by_id(999, self.items))

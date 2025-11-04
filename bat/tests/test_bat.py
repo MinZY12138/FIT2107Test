@@ -1,69 +1,26 @@
 import unittest
-
-from src.bat import Bat
-
-# --- Dummy UI class to simulate BatUI behaviour ---
-class DummyUI:
-    """A minimal UI mock with predictable screen flow."""
-    def __init__(self):
-        self.calls = []
-        self.screens = ["HOME", "MENU", "QUIT"]
-        self.index = 0
-
-    def get_current_screen(self):
-        """Simulate screen progression."""
-        return self.screens[self.index]
-
-    def run_current_screen(self):
-        """Record the call and advance screen state."""
-        self.calls.append(f"run_{self.screens[self.index]}")
-        if self.screens[self.index] != "QUIT":
-            self.index += 1
-
-
-# --- Dummy DataManager and BatUI to replace real ones ---
-class DummyDataManager:
-    """Placeholder class for DataManager (no real data needed)."""
-    pass
-
-class DummyBatUI(DummyUI):
-    """Extends DummyUI to match BatUI constructor signature."""
-    def __init__(self, data_manager):
-        super().__init__()
-        self.data_manager = data_manager
-
-
-# --- Monkey patch Bat dependencies ---
 import src.bat as bat_module
+import src.bat as bat_module
+from .dummy_bat_ui import DummyBatUI
+from .dummy_data_manager import DummyDataManager
+# Patch dependencies used inside Bat.run()
 bat_module.DataManager = DummyDataManager
 bat_module.BatUI = DummyBatUI
 
 
 class TestBat(unittest.TestCase):
-    """Comprehensive tests for the Bat class achieving 100% coverage."""
+    """Unit tests for Bat. One assert per test where feasible."""
 
-    def test_run_creates_instances_and_executes_loop(self):
-        """
-        Test run(): should create a DataManager, initialise a BatUI,
-        and call run_loop() which executes run_current_screen().
-        """
+    # ---- run() wiring ----
+    def test_run_constructs_ui_and_calls_loop_until_quit(self):
         bat = Bat()
-        bat.run()  # This uses our patched DummyBatUI and DummyDataManager
-
-        # Verify the loop ran through HOME → MENU → QUIT → final QUIT
+        bat.run()  # uses patched DummyDataManager/DummyBatUI
         ui = bat_module.BatUI(DummyDataManager())
         bat.run_loop(ui)
-        self.assertIn("run_QUIT", ui.calls)
         self.assertEqual(ui.calls[-1], "run_QUIT")
 
-    def test_run_loop_directly(self):
-        """
-        Test run_loop() explicitly with a dummy UI that starts at HOME
-        and cycles until QUIT.
-        """
-        ui = DummyUI()
-        bat = Bat()
-        bat.run_loop(ui)
-        # run_current_screen() should be called for each screen including QUIT
+    # ---- run_loop() behavior ----
+    def test_run_loop_calls_each_screen_once(self):
+        ui = DummyBatUI(DummyDataManager())
+        Bat().run_loop(ui)
         self.assertEqual(ui.calls, ["run_HOME", "run_MENU", "run_QUIT"])
-

@@ -3,17 +3,36 @@ from src.borrowable_item import BorrowableItem
 
 
 class TestBorrowableItem(unittest.TestCase):
-    def test_init_defaults(self):
-        """__init__ should set all fields to 'NO DATA LOADED'."""
+
+
+    # ---------- defaults after __init__ ----------
+
+    def test_init_default_id(self):
         b = BorrowableItem()
         self.assertEqual(b._id, "NO DATA LOADED")
+
+    def test_init_default_name(self):
+        b = BorrowableItem()
         self.assertEqual(b._name, "NO DATA LOADED")
+
+    def test_init_default_type(self):
+        b = BorrowableItem()
         self.assertEqual(b._type, "NO DATA LOADED")
+
+    def test_init_default_year(self):
+        b = BorrowableItem()
         self.assertEqual(b._year, "NO DATA LOADED")
+
+    def test_init_default_number_owned(self):
+        b = BorrowableItem()
         self.assertEqual(b._number_owned, "NO DATA LOADED")
+
+    def test_init_default_on_loan(self):
+        b = BorrowableItem()
         self.assertEqual(b._on_loan, "NO DATA LOADED")
 
-        # __str__ before loading should reflect defaults
+    def test_str_before_load_uses_defaults(self):
+        b = BorrowableItem()
         expected = (
             "Item NO DATA LOADED: NO DATA LOADED (NO DATA LOADED)\n"
             "Year: NO DATA LOADED\n"
@@ -21,29 +40,71 @@ class TestBorrowableItem(unittest.TestCase):
         )
         self.assertEqual(str(b), expected)
 
-    def test_load_data_sets_fields_and_types(self):
-        """load_data should assign fields and cast numeric strings to int."""
-        record = {
-            "item_id": "10",          # strings on purpose to test int() casts
-            "item_name": "Hammer",
-            "item_type": "Tool",
-            "year": "2024",
-            "number_owned": "3",
-            "on_loan": "1",
-        }
-        b = BorrowableItem()
-        b.load_data(record)
+    # ---------- load_data casts/assigns ----------
 
-        self.assertEqual((b._id, b._name, b._type), (10, "Hammer", "Tool"))
-        self.assertEqual((b._year, b._number_owned, b._on_loan), (2024, 3, 1))
-        # ensure types are ints
+    def test_load_data_sets_id_int(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
+        self.assertEqual(b._id, 10)
+
+    def test_load_data_sets_name(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
+        self.assertEqual(b._name, "Hammer")
+
+    def test_load_data_sets_type(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
+        self.assertEqual(b._type, "Tool")
+
+    def test_load_data_sets_year_int(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
+        self.assertEqual(b._year, 2024)
+
+    def test_load_data_sets_number_owned_int(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
+        self.assertEqual(b._number_owned, 3)
+
+    def test_load_data_sets_on_loan_int(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
+        self.assertEqual(b._on_loan, 1)
+
+    def test_id_is_instance_of_int_after_load(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
         self.assertIsInstance(b._id, int)
+
+    def test_year_is_instance_of_int_after_load(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
         self.assertIsInstance(b._year, int)
+
+    def test_number_owned_is_instance_of_int_after_load(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
         self.assertIsInstance(b._number_owned, int)
+
+    def test_on_loan_is_instance_of_int_after_load(self):
+        b = BorrowableItem()
+        b.load_data({"item_id": "10", "item_name": "Hammer", "item_type": "Tool",
+                     "year": "2024", "number_owned": "3", "on_loan": "1"})
         self.assertIsInstance(b._on_loan, int)
 
-    def test_str_after_load(self):
-        """__str__ after load_data should format all three lines correctly."""
+    # ---------- __str__ formatting after load ----------
+
+    def test_str_after_load_formats_three_lines(self):
         b = BorrowableItem()
         b.load_data({
             "item_id": 12,
@@ -53,9 +114,5 @@ class TestBorrowableItem(unittest.TestCase):
             "number_owned": 5,
             "on_loan": 2,
         })
-        expected = (
-            "Item 12: Drill (Carpentry tool)\n"
-            "Year: 2025\n"
-            "2/5 on loan"
-        )
+        expected = "Item 12: Drill (Carpentry tool)\nYear: 2025\n2/5 on loan"
         self.assertEqual(str(b), expected)
