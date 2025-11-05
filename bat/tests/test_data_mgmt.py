@@ -1,4 +1,5 @@
 import unittest
+from src.data_mgmt import DataManager
 from .dummy_patron import DummyPatron
 from .dummy_item import DummyItem
 

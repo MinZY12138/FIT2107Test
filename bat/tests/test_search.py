@@ -1,13 +1,15 @@
 import unittest
+
 from tests.patron_stub import Patron
 from tests.item_stub import Item
 
-from src.business_logic import (
+from src.search import (
     find_patron_by_name,
     find_patron_by_age,
     find_patron_by_name_and_age,
     find_item_by_id,
 )
+
 
 
 class TestFindFunctions(unittest.TestCase):
